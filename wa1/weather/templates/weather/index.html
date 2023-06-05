@@ -1,0 +1,78 @@
+<!doctype html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Погодное приложение по миру</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css">
+</head>
+<body>
+    <div class="d-flex flex-column align-items-center pb-3 mb-4 border-bottom">
+      <a href="/" class="d-flex align-items-center text-dark text-decoration-none">
+        <span class="fs-3"> Погодное приложение по миру</span>
+      </a>
+
+    </div>
+
+    <div class="container mt-5">
+        <div class="row">
+            <div class="col-5 offset-1">
+                <img src="https://postila.ru/data/6b/05/d4/1e/6b05d41eecd24f6f2ee2a14ae33f654aa31e1bad2711acd33c1427ca2622a028.jpg" width="450px">
+                <form action="" method="post">
+                    {% csrf_token %}
+                    <br>
+                    <label for="city">Город</label>
+                    {{ form.name }}
+                    <input type="submit" name="send" value="Узнать" class="mt-2 btn btn-danger">
+                </form>
+                <br>
+                <em>Данные о погоде выполняются для каждого заданного местоположения.</em>
+            </div>
+            <div class="col-4 offset-1">
+                <h1>Информация</h1>
+
+                {% for info in all_info %}
+                <div class="alert alert-info">
+                    <div class="row">
+                        <div class="col-9">
+                            <div id="current_date"></div>
+                            <script type="text/javascript">
+                                function zero_first_format(value)
+                                {
+                                    if (value < 10)
+                                    {
+                                        value='0'+value;
+                                    }
+                                    return value;
+                                }
+                                function date_time()
+                                {
+                                    var current_datetime = new Date();
+                                    var day = zero_first_format(current_datetime.getDate());
+                                    var month = zero_first_format(current_datetime.getMonth()+1);
+                                    var year = current_datetime.getFullYear();
+
+                                    return day+"."+month+"."+year;
+                                }
+                                document.getElementById('current_date').innerHTML = date_time();
+                            </script>
+                            <b>Город </b>{{ info.city }}<br>
+                            <b>Температура </b>{{ info.temp }}<sup>0</sup><br>
+                            <b>Погода </b>{{ info.main }}
+                            <img src="http://openweathermap.org/img/w/{{ info.icon }}.png"
+                                 alt="Фото погоды" class="img-thunbnail">
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+
+            </div>
+
+        </div>
+
+    </div>
+
+</body>
+</html>
