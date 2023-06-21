@@ -1,1 +1,1 @@
-# weather - для прогноза погоды
+# weather - для прогноза погоды / for weather forecast
